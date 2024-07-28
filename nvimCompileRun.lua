@@ -43,11 +43,11 @@ function M.compile_and_run_cpp()
 		vim.cmd(input_bufnr .. "wincmd w")
 	end
 
-	local output_butnr = vim.fn.bufnr(output_file)
-	if output_butnr == 0 then
+	local output_bufnr = vim.fn.bufnr(output_file)
+	if output_bufnr == 0 then
 		vim.cmd("split " .. output_file)
 	else
-		vim.cmd(output_butnr .. "wincmd w")
+		vim.cmd(output_bufnr .. "wincmd w")
 	end
 
 	vim.cmd("vertical resize 71%")
@@ -63,6 +63,12 @@ function M.compile_and_run_cpp()
 end
 
 function M.setup()
-	vim.api.nvim_create_user_command("GCompile", M.compile_and_run, {})
+	vim.api.nvim_set_keymap(
+		"n",
+		"<C-b>",
+		":lua require('compile_run_cpp').compile_and_run_cpp()<CR>",
+		{ noremap = true, silent = true }
+	)
 end
+
 return M
