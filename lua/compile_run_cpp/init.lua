@@ -63,12 +63,6 @@ function M.compile_and_run_cpp()
 end
 
 function M.setup()
-	vim.api.nvim_set_keymap(
-		"n",
-		"<C-b>",
-		":lua require('compile_run_cpp').compile_and_run_cpp()<CR>",
-		{ noremap = true, silent = true }
-	)
+	vim.api.nvim_create_user_command("GCompile", M.compile_and_run, {})
 end
-
 return M
