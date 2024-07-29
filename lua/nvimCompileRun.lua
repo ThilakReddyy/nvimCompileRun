@@ -1,5 +1,5 @@
 -- lua/compile_run_cpp/init.lua
-
+print("hello world")
 local M = {}
 
 function M.compile_and_run_cpp()
@@ -37,20 +37,20 @@ function M.compile_and_run_cpp()
 	output_fd:close()
 
 	local input_bufnr = vim.fn.bufnr(input_file)
-	if input_bufnr == 0 then
+	if input_bufnr == 1 then
 		vim.cmd("vsp " .. input_file)
 	else
 		vim.cmd(input_bufnr .. "wincmd w")
 	end
 
 	local output_bufnr = vim.fn.bufnr(output_file)
-	if output_bufnr == 0 then
+	if output_bufnr == 1 then
 		vim.cmd("split " .. output_file)
 	else
 		vim.cmd(output_bufnr .. "wincmd w")
 	end
 
-	vim.cmd("vertical resize 71%")
+	vim.cmd("vertical resize 72%")
 
 	local file = vim.fn.bufnr(filename)
 	vim.cmd(file .. "wincmd w")
@@ -61,14 +61,8 @@ function M.compile_and_run_cpp()
 	vim.cmd("silent !clear")
 	vim.cmd("silent !" .. compile_cmd)
 end
-
 function M.setup()
-	vim.api.nvim_set_keymap(
-		"n",
-		"<C-b>",
-		":lua require('compile_run_cpp').compile_and_run_cpp()<CR>",
-		{ noremap = true, silent = true }
-	)
+	vim.api.nvim_create_user_command("GCompileAndRun", M.compile_and_run_cpp, {})
 end
 
 return M
